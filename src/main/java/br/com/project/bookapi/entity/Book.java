@@ -12,7 +12,7 @@ public class Book {
 
 	private String bookId;
 
-	private String author;
+	private Person author;
 
 	private String title;
 
@@ -23,7 +23,7 @@ public class Book {
     public Book() {
 	}
 
-	public Book(String author, String title, String publisher, int year) {
+	public Book(Person author, String title, String publisher, int year) {
 		this.author = author;
 		this.title = title;
 		this.publisher = publisher;
@@ -37,8 +37,8 @@ public class Book {
 		return bookId;
 	}
 
-    @DynamoDBAttribute
-	public String getAuthor() {
+    @DynamoDBAttribute(attributeName="author")
+	public Person getAuthor() {
 		return author;
 	}
 
@@ -61,7 +61,7 @@ public class Book {
 		this.bookId = bookId;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(Person author) {
 		this.author = author;
 	}
 

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.project.bookapi.entity.Book;
+import br.com.project.bookapi.entity.Person;
 import lombok.Data;
 
 @Data
@@ -18,8 +19,7 @@ public class BookDTO implements Serializable {
 
 	@JsonProperty("author")
     @NotNull
-    @NotBlank
-    private String author;
+    private Person author;
 
     @JsonProperty("title")
     @NotNull
