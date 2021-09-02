@@ -6,9 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
-
 import br.com.project.bookapi.dto.BookDTO;
 import br.com.project.bookapi.entity.Book;
 import br.com.project.bookapi.repository.BookRepository;
@@ -24,36 +21,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book save(BookDTO bookDTO) {
-//        if(bookRepository.findByCompanyDocumentNumber(bookDTO.getCompanyDocumentNumber()).isPresent()) {
- //           throw new RuntimeException("There is already a customer with this document number");
-   //     }
-    	try {
-            return bookRepository.save(new Book("Jhonnan"));
-    	} catch (AmazonServiceException ase) {
-    	    System.err.println("Could not complete operation");
-    	    System.err.println("Error Message:  " + ase.getMessage());
-    	    System.err.println("HTTP Status:    " + ase.getStatusCode());
-    	    System.err.println("AWS Error Code: " + ase.getErrorCode());
-    	    System.err.println("Error Type:     " + ase.getErrorType());
-    	    System.err.println("Request ID:     " + ase.getRequestId());
-    	    throw ase;
-
-    	} catch (AmazonClientException ace) {
-    	    System.err.println("Internal error occurred communicating with DynamoDB");
-    	    System.out.println("Error Message:  " + ace.getMessage());
-    	    throw ace;
-    	}
-    }
-
-    @Override
-    public List<Book> findAllBooks() {
+    public List<Book> findAll() {
         return (List<Book>) bookRepository.findAll();
     }
 
     @Override
     public List<Book> findByTitle(String title) {
         return bookRepository.findByTitle(title);
+    }
+
+    @Override
+    public Optional<Book> findById(String id) {
+        return bookRepository.findById(id);
+    }
+
+    @Override
+    public Book save(BookDTO bookDTO) {
+        if(bookRepository.findByAuthorAndTitle(bookDTO.getAuthor(), bookDTO.getTitle()) != null) {
+            throw new RuntimeException("There is already a book with this author and title");
+        }
+        return bookRepository.save(bookDTO.bookDTOToBook());
     }
 
 	@Override
@@ -69,4 +56,14 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book.get());
     }
 
+	@Override
+    public void delete(String bookId) {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if(book.isEmpty()) {
+            throw new RuntimeException("There is no book with this bookId");
+        }
+
+        bookRepository.delete(book.get());
+    }
 }

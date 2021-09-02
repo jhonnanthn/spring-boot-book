@@ -11,4 +11,6 @@ import br.com.project.bookapi.entity.Book;
 public interface BookRepository extends CrudRepository<Book, String> {
 
     List<Book> findByTitle(String title);
+
+    Book findByAuthorAndTitle(String author, String title);
 }

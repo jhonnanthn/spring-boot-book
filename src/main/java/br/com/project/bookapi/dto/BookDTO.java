@@ -20,7 +20,7 @@ public class BookDTO implements Serializable {
     @NotNull
     @NotBlank
     private String author;
-/*
+
     @JsonProperty("title")
     @NotNull
     @NotBlank
@@ -33,17 +33,14 @@ public class BookDTO implements Serializable {
 
     @JsonProperty("year")
     @NotNull
-    private int year;*/
-
+    private int year;
 
     public Book bookDTOToBook() {
         return new Book(
-            this.author//,
-            //this.title,
-            //this.publisher,
-            //this.year
+            this.author,
+            this.title,
+            this.publisher,
+            this.year
         );
     }
-
-
 }
