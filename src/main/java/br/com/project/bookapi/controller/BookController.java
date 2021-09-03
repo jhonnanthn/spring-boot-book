@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.project.bookapi.dto.BookDTO;
@@ -22,6 +24,7 @@ import br.com.project.bookapi.service.BookService;
 
 @RestController
 @RequestMapping("/book")
+@CrossOrigin
 public class BookController {
 
 	private BookService bookService;
@@ -36,8 +39,13 @@ public class BookController {
 	 * @return the list
 	 */
 	@GetMapping
-	public List<Book> getAll() {
-		return bookService.findAll();
+	public ResponseEntity<List<Book>> findAll(
+		@RequestParam(required = false, defaultValue = "") String filter
+	) {
+		if (!filter.isBlank())
+			return new ResponseEntity<List<Book>>(bookService.findByTitle(filter), HttpStatus.OK);
+
+        return new ResponseEntity<List<Book>>(bookService.findAll(), HttpStatus.OK);
 	}
 
 	/**
@@ -46,8 +54,8 @@ public class BookController {
 	 * @return book
 	 */
 	@GetMapping("/{id}")
-	public Optional<Book> getBookById(@PathVariable String id) {
-		return bookService.findById(id);
+	public ResponseEntity<Optional<Book>> getBookById(@PathVariable String id) {
+        return new ResponseEntity<Optional<Book>>(bookService.findById(id), HttpStatus.OK);
 	}
 
 	/**

@@ -5,13 +5,16 @@ import java.util.Date;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 
+import lombok.AllArgsConstructor;
+
 @DynamoDBDocument
+@AllArgsConstructor
 public class Person {
     private String fullName;
     private Date birthday;
     private Long cpf;
-
-    @DynamoDBAttribute(attributeName = "fullName")
+    
+	@DynamoDBAttribute(attributeName = "fullName")
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 
