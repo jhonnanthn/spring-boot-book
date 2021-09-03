@@ -22,7 +22,7 @@ public class Person {
     public Date getBirthday() { return birthday; }
     public void setBirthday(Date birthday) { this.birthday = birthday; }
 
-    @DynamoDBAttribute(attributeName = "cpcf")
+    @DynamoDBAttribute(attributeName = "cpf")
     public Long getCpf() { return cpf; }
     public void setCpf(Long cpf) { this.cpf = cpf; }
 
