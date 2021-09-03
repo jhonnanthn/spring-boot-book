@@ -17,8 +17,9 @@ public class Book {
 	private String title;
 
 	private String publisher;
-
+	
 	private int year;
+
 
     public Book() {
 	}
@@ -37,7 +38,7 @@ public class Book {
 		return bookId;
 	}
 
-    @DynamoDBAttribute(attributeName="author")
+    @DynamoDBAttribute(attributeName = "author")
 	public Person getAuthor() {
 		return author;
 	}
