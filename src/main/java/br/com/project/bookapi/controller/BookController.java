@@ -43,7 +43,7 @@ public class BookController {
 		@RequestParam(required = false, defaultValue = "") String filter
 	) {
 		if (!filter.isBlank())
-			return new ResponseEntity<List<Book>>(bookService.findByTitle(filter), HttpStatus.OK);
+			return new ResponseEntity<List<Book>>(bookService.findByTitle(filter.trim().toUpperCase()), HttpStatus.OK);
 
         return new ResponseEntity<List<Book>>(bookService.findAll(), HttpStatus.OK);
 	}
@@ -59,9 +59,9 @@ public class BookController {
 	}
 
 	/**
-	 * Get all books list.
-	 *
-	 * @return the list
+	 * Save book
+	 * @params BookDTO
+	 * @return book
 	 */
 	@PostMapping
     public ResponseEntity<Book> save(@Valid @RequestBody BookDTO bookDTO) {
@@ -81,7 +81,7 @@ public class BookController {
 	/**
 	 * Delete book by id.
 	 *
-	 * @return the book
+	 * @return
 	 */
 	@DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
